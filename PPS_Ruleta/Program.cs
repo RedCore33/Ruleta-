@@ -1,19 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading;
 
 class Program
 {
     static void Main()
     {
+        // --- Leer ranking de máximos créditos de records.txt ---
+        string recordsPath = "records.txt";
+        var ranking = new Dictionary<string, int>();
+        if (File.Exists(recordsPath))
+        {
+            foreach (var line in File.ReadAllLines(recordsPath))
+            {
+                var parts = line.Split(':');
+                if (parts.Length == 2 && int.TryParse(parts[1], out int max))
+                    ranking[parts[0]] = max;
+            }
+        }
+
+        // --- Mostrar ranking actual ---
+        Console.WriteLine("Ranking de máximos créditos:");
+        foreach (var r in ranking.OrderByDescending(x => x.Value))
+            Console.WriteLine($"{r.Key}: {r.Value}");
+
+        // --- Pedir nombre del jugador ---
+        Console.Write("Introduce tu nombre o 3 letras: ");
+        string nombre = Console.ReadLine()?.Trim().ToUpper();
+        if (string.IsNullOrWhiteSpace(nombre)) nombre = "???";
+        int recordPersonal = ranking.ContainsKey(nombre) ? ranking[nombre] : 0;
+
+        // --- Inicializar créditos y máximo alcanzado ---
         int creditos = 25;
+        int maxCreditos = creditos;
+
+        // --- Bucle principal del juego ---
         while (creditos > 0)
         {
+            // Mostrar créditos actuales
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"Bienvenido a la Ruleta Casino! Créditos actuales: {creditos}");
             Console.ResetColor();
+
+            // Lista de apuestas para la tirada
             var apuestas = new List<(int tipo, string valor, int cantidad)>();
             int creditosRestantes = creditos;
+
+            // --- Bucle para añadir apuestas ---
             while (creditosRestantes > 0)
             {
                 Console.WriteLine($"\nCréditos disponibles para apostar: {creditosRestantes}");
@@ -30,6 +65,7 @@ class Program
                 }
                 string valor = "";
                 string tipoTexto = "";
+                // --- Pedir valor de la apuesta según tipo ---
                 switch (tipoApuesta)
                 {
                     case 1:
@@ -67,6 +103,7 @@ class Program
                         valor = paridad;
                         break;
                 }
+                // --- Pedir cantidad de créditos a apostar ---
                 int cantidad;
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write($"¿Cuántos créditos quieres apostar a esta opción? (1-{creditosRestantes}): ");
@@ -77,9 +114,11 @@ class Program
                     Console.Write($"Cantidad inválida. Elige entre 1 y {creditosRestantes}: ");
                     Console.ResetColor();
                 }
+                // --- Añadir apuesta a la lista ---
                 apuestas.Add((tipoApuesta, valor, cantidad));
                 creditosRestantes -= cantidad;
                 Console.WriteLine($"Apuesta añadida: {tipoTexto} = {valor}, Créditos = {cantidad}");
+                // --- Preguntar si quiere añadir otra apuesta ---
                 if (creditosRestantes > 0)
                 {
                     Console.Write("¿Quieres añadir otra apuesta? (s/n): ");
@@ -87,13 +126,16 @@ class Program
                     if (otra != "s" && otra != "si") break;
                 }
             }
+            // --- Si no hay apuestas, salir ---
             if (apuestas.Count == 0)
             {
                 Console.WriteLine("No has realizado ninguna apuesta. ¡Gracias por jugar!");
                 break;
             }
-            creditos -= (creditos - creditosRestantes); // Descontar créditos apostados
+            // --- Descontar créditos apostados ---
+            creditos -= (creditos - creditosRestantes);
             Console.WriteLine("\nGirando la ruleta...");
+            // --- Animación y resultado de la ruleta ---
             (int resultado, string colorRes, string paridadRes) = GirarRuletaAnimacion();
             Console.WriteLine("\n\n------------------------------\n");
             for (int i = 0; i < 6; i++)
@@ -107,6 +149,7 @@ class Program
             Console.ResetColor();
             Console.WriteLine($"\r¡El resultado es: {resultado} [{colorRes}] ({paridadRes})!");
             int totalGanancia = 0;
+            // --- Calcular ganancias de cada apuesta ---
             foreach (var ap in apuestas)
             {
                 int ganancia = 0;
@@ -137,6 +180,7 @@ class Program
                         if (acierto) ganancia = ap.cantidad + 2;
                         break;
                 }
+                // --- Mostrar resultado de la apuesta ---
                 if (acierto)
                 {
                     totalGanancia += ganancia;
@@ -149,15 +193,19 @@ class Program
                     Console.WriteLine($"Apuesta fallida: {tipoTexto} = {ap.valor}, Pierdes {ap.cantidad} crédito(s)");
                 }
             }
+            // --- Sumar ganancias al saldo y actualizar máximo ---
             creditos += totalGanancia;
+            if (creditos > maxCreditos) maxCreditos = creditos;
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"Créditos actuales: {creditos}");
             Console.ResetColor();
+            // --- Fin de partida si no quedan créditos ---
             if (creditos <= 0)
             {
                 Console.WriteLine("\nTe has quedado sin créditos. ¡Fin del juego!");
                 break;
             }
+            // --- Preguntar si quiere volver a tirar ---
             Console.WriteLine("\n¿Quieres volver a tirar? (s/n): ");
             string respuesta = Console.ReadLine()?.Trim().ToLower();
             if (respuesta != "s" && respuesta != "si")
@@ -167,8 +215,19 @@ class Program
             }
             Console.Clear();
         }
+        // --- Guardar récord personal y ranking ---
+        if (maxCreditos > recordPersonal)
+        {
+            ranking[nombre] = maxCreditos;
+            Console.WriteLine($"¡Nuevo récord personal! {nombre}: {maxCreditos}");
+        }
+        File.WriteAllLines(recordsPath, ranking.OrderByDescending(x => x.Value).Select(x => $"{x.Key}:{x.Value}"));
+        Console.WriteLine("\nRanking actualizado:");
+        foreach (var r in ranking.OrderByDescending(x => x.Value))
+            Console.WriteLine($"{r.Key}: {r.Value}");
     }
 
+    // --- Animación y resultado de la ruleta ---
     static (int, string, string) GirarRuletaAnimacion()
     {
         Random rnd = new Random();

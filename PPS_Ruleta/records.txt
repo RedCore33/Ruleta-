@@ -1,0 +1,2 @@
+// Archivo de records para ranking de máximos créditos
+// Formato: NOMBRE:MAX_CREDITOS
