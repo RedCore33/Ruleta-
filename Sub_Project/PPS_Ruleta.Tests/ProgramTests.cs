@@ -48,6 +48,9 @@ namespace PPS_Ruleta.Tests
                 Console.SetOut(originalOut);
             }
         }
+
+        [Fact]
+        public void 
     }
 }
 
