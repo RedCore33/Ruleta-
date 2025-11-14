@@ -1,8 +1,5 @@
-PROJECT = PPS_Ruleta/PPS_Ruleta.csproj
-TEST = PPS_Ruleta.Tests/PPS_Ruleta.Tests.csproj
-
-build:
-	dotnet build $(PROJECT)
+PROJECT = Calculator/Calculator.csproj
+TEST = Calculator.Tests/Calculator.Tests.csproj
 
 run:
 	dotnet run --project $(PROJECT)
