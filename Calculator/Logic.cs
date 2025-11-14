@@ -55,4 +55,51 @@ public class Logic
 
         return num;
     }
+
+    public void RunFromFile()
+    {
+        _ui.Write("Enter input file path: ");
+        string path = _ui.Read();
+
+        if (!File.Exists(path))
+        {
+            _ui.Write("Error: File not found.");
+            return;
+        }
+
+        string[] lines = File.ReadAllLines(path);
+
+        foreach (var line in lines)
+        {
+            string[] parts = line.Split(' ');
+            if (parts.Length != 3 ||
+                !int.TryParse(parts[0], out int operation) ||
+                !double.TryParse(parts[1], out double a) ||
+                !double.TryParse(parts[2], out double b))
+            {
+                _ui.Write($"Invalid input line: {line}");
+                continue;
+            }
+
+            try
+            {
+                double result = operation switch
+                {
+                    1 => _calculator.Sum(a, b),
+                    2 => _calculator.Subtract(a, b),
+                    3 => _calculator.Multiply(a, b),
+                    4 => _calculator.Divide(a, b),
+                    _ => throw new InvalidOperationException("Unknown operation")
+                };
+
+                _ui.Write($"Result: {result}");
+            }
+            catch (Exception ex)
+            {
+                _ui.Write($"Error: {ex.Message}");
+            }
+        }
+
+        _ui.Write("Done processing file.");
+    }
 }
