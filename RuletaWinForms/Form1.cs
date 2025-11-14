@@ -57,16 +57,16 @@ public partial class Form1 : Form
             lstRanking.Items.Add($"{r.Key}: {r.Value}");
     }
 
-    // --- Actualizar UI de créditos y nombre ---
+    // --- Actualizar UI de crï¿½ditos y nombre ---
     void ActualizarUI()
     {
-        lblCreditos.Text = $"Créditos: {creditos}";
+        lblCreditos.Text = $"Creditos: {creditos}";
         lblNombre.Text = $"Jugador: {nombre}";
         btnGirar.Enabled = apuestas.Count > 0 && !girando;
     }
 
-    // --- Añadir apuesta ---
-    private void btnAñadirApuesta_Click(object sender, EventArgs e)
+    // --- Aï¿½adir apuesta ---
+    private void btnAnadirApuesta_Click(object sender, EventArgs e)
     {
         if (creditos <= 0) return;
         int tipo = cmbTipo.SelectedIndex + 1;
@@ -74,7 +74,7 @@ public partial class Form1 : Form
         int cantidad;
         if (!int.TryParse(txtCantidad.Text, out cantidad) || cantidad < 1 || cantidad > creditos)
         {
-            MessageBox.Show($"Cantidad inválida. Elige entre 1 y {creditos}");
+            MessageBox.Show($"Cantidad invalida. Elige entre 1 y {creditos}");
             return;
         }
         switch (tipo)
@@ -83,7 +83,7 @@ public partial class Form1 : Form
                 valor = txtValor.Text;
                 if (!int.TryParse(valor, out int num) || num < 0 || num > 36)
                 {
-                    MessageBox.Show("Número inválido. Elige entre 0 y 36");
+                    MessageBox.Show("Numero invalido. Elige entre 0 y 36");
                     return;
                 }
                 break;
@@ -91,7 +91,7 @@ public partial class Form1 : Form
                 valor = cmbColor.SelectedItem?.ToString()?.ToLower();
                 if (valor != "rojo" && valor != "gris" && valor != "verde")
                 {
-                    MessageBox.Show("Color inválido");
+                    MessageBox.Show("Color invalido");
                     return;
                 }
                 break;
@@ -99,14 +99,14 @@ public partial class Form1 : Form
                 valor = cmbParidad.SelectedItem?.ToString()?.ToLower();
                 if (valor != "par" && valor != "impar")
                 {
-                    MessageBox.Show("Paridad inválida");
+                    MessageBox.Show("Paridad invalida");
                     return;
                 }
                 break;
         }
         apuestas.Add((tipo, valor, cantidad));
         creditos -= cantidad;
-        lstApuestas.Items.Add($"{TipoTexto(tipo)} = {valor}, Créditos = {cantidad}");
+        lstApuestas.Items.Add($"{TipoTexto(tipo)} = {valor}, Creditos = {cantidad}");
         ActualizarUI();
     }
 
@@ -120,7 +120,7 @@ public partial class Form1 : Form
         animTimer.Start();
     }
 
-    // --- Animación de la ruleta ---
+    // --- Animaciï¿½n de la ruleta ---
     private void AnimTimer_Tick(object sender, EventArgs e)
     {
         animStep++;
@@ -199,7 +199,7 @@ public partial class Form1 : Form
             }
             else
             {
-                MessageBox.Show($"Apuesta fallida: {TipoTexto(ap.tipo)} = {ap.valor}, Pierdes {ap.cantidad} crédito(s)");
+                MessageBox.Show($"Apuesta fallida: {TipoTexto(ap.tipo)} = {ap.valor}, Pierdes {ap.cantidad} crï¿½dito(s)");
             }
         }
         creditos += totalGanancia;
@@ -207,7 +207,7 @@ public partial class Form1 : Form
         lblResultado.Text = $"Resultado: {resultado} [{colorRes}] ({paridadRes})";
         if (creditos <= 0)
         {
-            MessageBox.Show("Te has quedado sin créditos. ¡Fin del juego!");
+            MessageBox.Show("Te has quedado sin creditos. Fin del juego!");
             GuardarRanking();
             Application.Exit();
         }
@@ -226,7 +226,7 @@ public partial class Form1 : Form
     {
         return tipo switch
         {
-            1 => "Número",
+            1 => "Numero",
             2 => "Color",
             3 => "Par/Impar",
             _ => ""

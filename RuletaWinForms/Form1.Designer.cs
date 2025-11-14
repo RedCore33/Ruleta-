@@ -13,7 +13,7 @@ namespace RuletaWinForms
         private System.Windows.Forms.ComboBox cmbColor;
         private System.Windows.Forms.ComboBox cmbParidad;
         private System.Windows.Forms.TextBox txtCantidad;
-        private System.Windows.Forms.Button btnAñadirApuesta;
+        private System.Windows.Forms.Button btnAnadirApuesta;
         private System.Windows.Forms.ListBox lstApuestas;
         private System.Windows.Forms.Button btnGirar;
         private System.Windows.Forms.Panel pnlRuleta;
@@ -40,7 +40,7 @@ namespace RuletaWinForms
             this.cmbColor = new System.Windows.Forms.ComboBox();
             this.cmbParidad = new System.Windows.Forms.ComboBox();
             this.txtCantidad = new System.Windows.Forms.TextBox();
-            this.btnAñadirApuesta = new System.Windows.Forms.Button();
+            this.btnAnadirApuesta = new System.Windows.Forms.Button();
             this.lstApuestas = new System.Windows.Forms.ListBox();
             this.btnGirar = new System.Windows.Forms.Button();
             this.pnlRuleta = new System.Windows.Forms.Panel();
@@ -54,7 +54,7 @@ namespace RuletaWinForms
             this.lblCreditos.Name = "lblCreditos";
             this.lblCreditos.Size = new System.Drawing.Size(70, 15);
             this.lblCreditos.TabIndex = 0;
-            this.lblCreditos.Text = "Créditos: 25";
+            this.lblCreditos.Text = "Creditos: 25";
             // 
             // lblNombre
             // 
@@ -96,7 +96,7 @@ namespace RuletaWinForms
             this.cmbTipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTipo.FormattingEnabled = true;
             this.cmbTipo.Items.AddRange(new object[] {
-            "Número",
+            "Numero",
             "Color",
             "Par/Impar"});
             this.cmbTipo.Location = new System.Drawing.Point(20, 100);
@@ -143,15 +143,15 @@ namespace RuletaWinForms
             this.txtCantidad.Size = new System.Drawing.Size(50, 23);
             this.txtCantidad.TabIndex = 9;
             // 
-            // btnAñadirApuesta
+            // btnAnadirApuesta
             // 
-            this.btnAñadirApuesta.Location = new System.Drawing.Point(410, 100);
-            this.btnAñadirApuesta.Name = "btnAñadirApuesta";
-            this.btnAñadirApuesta.Size = new System.Drawing.Size(100, 23);
-            this.btnAñadirApuesta.TabIndex = 10;
-            this.btnAñadirApuesta.Text = "Añadir Apuesta";
-            this.btnAñadirApuesta.UseVisualStyleBackColor = true;
-            this.btnAñadirApuesta.Click += new System.EventHandler(this.btnAñadirApuesta_Click);
+            this.btnAnadirApuesta.Location = new System.Drawing.Point(410, 100);
+            this.btnAnadirApuesta.Name = "btnAnadirApuesta";
+            this.btnAnadirApuesta.Size = new System.Drawing.Size(100, 23);
+            this.btnAnadirApuesta.TabIndex = 10;
+            this.btnAnadirApuesta.Text = "Anadir Apuesta";
+            this.btnAnadirApuesta.UseVisualStyleBackColor = true;
+            this.btnAnadirApuesta.Click += new System.EventHandler(this.btnAnadirApuesta_Click);
             // 
             // lstApuestas
             // 
@@ -198,7 +198,7 @@ namespace RuletaWinForms
             this.Controls.Add(this.pnlRuleta);
             this.Controls.Add(this.btnGirar);
             this.Controls.Add(this.lstApuestas);
-            this.Controls.Add(this.btnAñadirApuesta);
+            this.Controls.Add(this.btnAnadirApuesta);
             this.Controls.Add(this.txtCantidad);
             this.Controls.Add(this.cmbParidad);
             this.Controls.Add(this.cmbColor);
